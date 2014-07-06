@@ -14,14 +14,14 @@ print("Authenticated as "..User) --[[Tells the user know that they can use the s
 --[[Place your script code here.]]
 
 local AUTOUPDATE = true
-local UPDATE_HOST = "pasterbin.com"
-local UPDATE_PATH = "/raw.php?i=BZDi7bMr".."?rand="..math.random(1,10000)
+local UPDATE_HOST = "raw.github.com"
+local UPDATE_PATH = "/szczurekPROS/GitHub/blob/master/scripts/SorakaBot PRO by szczurekPROS.lua".."?rand="..math.random(1,10000)
 local UPDATE_FILE_PATH = SCRIPT_PATH.."SorakaBot PRO by szczurekPROS.lua"
 local UPDATE_URL = "https://"..UPDATE_HOST..UPDATE_PATH
 
 function _AutoupdaterMsg(msg) print("<font color=\"#6699ff\"><b>SorakaBot PRO by szczurekPROS:</b></font> <font color=\"#FFFFFF\">"..msg..".</font>") end
 if AUTOUPDATE then
-        local ServerData = GetWebResult(UPDATE_HOST, "/k9jZFXMY")
+        local ServerData = GetWebResult(UPDATE_HOST, "szczurekPROS/GitHub/blob/master/scripts/Version/sorakabot.version.txt")
         if ServerData then
                 ServerVersion = type(tonumber(ServerData)) == "number" and tonumber(ServerData) or nil
                 if ServerVersion then
