@@ -1,4 +1,4 @@
-local version = "1.0"
+local version = "1.1"
 local AuthList = {"mazix","szczurek","Spider2023","kuba2023"} --[[Table of users who you wish to use the script.]]
 local User = string.lower(GetUser()) --[[Calls the GetUser() function once for better performance.]]
 function Auth()
@@ -15,13 +15,13 @@ print("Authenticated as "..User) --[[Tells the user know that they can use the s
 
 local AUTOUPDATE = true
 local UPDATE_HOST = "raw.github.com"
-local UPDATE_PATH = "/szczurekPROS/GitHub/blob/master/scripts/SorakaBot PRO by szczurekPROS.lua".."?rand="..math.random(1,10000)
+local UPDATE_PATH = "/szczurekPROS/GitHub/master/scripts/SorakaBot PRO by szczurekPROS.lua".."?rand="..math.random(1,10000)
 local UPDATE_FILE_PATH = SCRIPT_PATH.."SorakaBot PRO by szczurekPROS.lua"
 local UPDATE_URL = "https://"..UPDATE_HOST..UPDATE_PATH
 
 function _AutoupdaterMsg(msg) print("<font color=\"#6699ff\"><b>SorakaBot PRO by szczurekPROS:</b></font> <font color=\"#FFFFFF\">"..msg..".</font>") end
 if AUTOUPDATE then
-        local ServerData = GetWebResult(UPDATE_HOST, "szczurekPROS/GitHub/blob/master/scripts/Version/sorakabot.version.txt")
+        local ServerData = GetWebResult(UPDATE_HOST, "/szczurekPROS/GitHub/master/scripts/Version/sorakabot.version.txt")
         if ServerData then
                 ServerVersion = type(tonumber(ServerData)) == "number" and tonumber(ServerData) or nil
                 if ServerVersion then
