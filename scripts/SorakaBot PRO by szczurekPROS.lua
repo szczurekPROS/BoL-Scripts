@@ -1,4 +1,4 @@
-local version = "1.1"
+local version = "1.03"
 local AuthList = {"mazix","szczurek","Spider2023","kuba2023"} --[[Table of users who you wish to use the script.]]
 local User = string.lower(GetUser()) --[[Calls the GetUser() function once for better performance.]]
 function Auth()
