@@ -26,7 +26,7 @@ end
 
 --[[AUTO UPDATE END]]--
 
-    welcome = "Welcome to SorakaBot version 1.00 Free Edition by szczurekPROS"
+    welcome = "Welcome to SorakaBot version 1.01 Free Edition by szczurekPROS"
     --[[
     SorakaBot V1.00
     Free Edition by szczurekPROS
