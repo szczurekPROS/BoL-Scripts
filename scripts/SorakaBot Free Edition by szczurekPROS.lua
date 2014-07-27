@@ -1,11 +1,11 @@
-local version = "1.3"
+local version = "1.4"
 local AUTOUPDATE = true
 local UPDATE_HOST = "raw.github.com"
 local UPDATE_PATH = "/szczurekPROS/GitHub/master/scripts/SorakaBot Free Edition by szczurekPROS.lua".."?rand="..math.random(1,10000)
 local UPDATE_FILE_PATH = SCRIPT_PATH.."SorakaBot Free Edition by szczurekPROS.lua"
 local UPDATE_URL = "https://"..UPDATE_HOST..UPDATE_PATH
 
-function _AutoupdaterMsg(msg) print("<font color=\"#6699ff\"><b>SorakaBot PRO by szczurekPROS:</b></font> <font color=\"#FFFFFF\">"..msg..".</font>") end
+function _AutoupdaterMsg(msg) print("<font color=\"#6699ff\"><b>SorakaBot Free by szczurekPROS:</b></font> <font color=\"#FFFFFF\">"..msg..".</font>") end
 if AUTOUPDATE then
         local ServerData = GetWebResult(UPDATE_HOST, "/szczurekPROS/GitHub/master/scripts/Version/sorakabotfree.version")
         if ServerData then
@@ -26,7 +26,7 @@ end
 
 --[[AUTO UPDATE END]]--
 
-    welcome = "Welcome to SorakaBot version 1.3 Free Edition by szczurekPROS"
+    welcome = "Welcome to SorakaBot version 1.4 Free Edition by szczurekPROS"
     --[[
     SorakaBot V1.02
     Free Edition by szczurekPROS
@@ -231,7 +231,7 @@ end
     action,actionTimer,brainTimer = nil,nil
     function drawGui()
             if guiMenu == nil then
-                    guiMenu = {AIGui.text(0,0,"SorakaBot V1.3 Free Edition By szczurekPROS")}
+                    guiMenu = {AIGui.text(0,0,"SorakaBot V1.4 Free Edition By szczurekPROS")}
                     if brainTimer ~= nil then guiMenu[#guiMenu + 1] = AIGui.button(0,0,"Stop action",function()
                                     AITimer.remove(brainTimer)
                                     AITimer.remove(actionTimer)
