@@ -1,4 +1,4 @@
-local version = "1.01"
+local version = "1.02"
 local AUTOUPDATE = true
 local UPDATE_HOST = "raw.github.com"
 local UPDATE_PATH = "/szczurekPROS/GitHub/master/scripts/SorakaBot Free Edition by szczurekPROS.lua".."?rand="..math.random(1,10000)
@@ -26,9 +26,9 @@ end
 
 --[[AUTO UPDATE END]]--
 
-    welcome = "Welcome to SorakaBot version 1.01 Free Edition by szczurekPROS"
+    welcome = "Welcome to SorakaBot version 1.02 Free Edition by szczurekPROS"
     --[[
-    SorakaBot V1.00
+    SorakaBot V1.02
     Free Edition by szczurekPROS
     --]]
      
@@ -44,23 +44,22 @@ end
     desiredSummoners = true
     --enable autobuy items from list
     desiredItems = true
-    --item sequence
-    items = {  --{ ID,{destination(parent)items}}
-                     {3301,{3096}}, -- Ancient Coin
-                     {3096,{3056}}, --Talisman of Ascencion
-                     {1028,{2049,2045}}, --hp
-                     {2049,{2045}}, --sightstone
-                     {1001,{3158}}, --boots
-                     {3158,{3279}}, --boots cdr      
-                     {1028,{3067,3190}}, --hp
-                     {3067,{3190}}, --cdr
-                     {3190}, --locket
-                     {3056}, --ohmwrecker
-    }
+    --Item List
+	--[[ Config ]]
+	PrintChat("Support Items Loaded: Soraka")
+	shopList = {1006, 3301, 3096, 1001, 1028, 3158, 3067, 3069, 1028, 3105, 3190, 1028, 3010, 3027, 3065}
+	--item ids can be found at many websites, ie: http://www.lolking.net/items/1004
+
+	nextbuyIndex = 1
+	wardBought = 0
+	firstBought = false
+	lastBuy = 0
+	
+	buyDelay = 100 --default 100
     --enable level spells from array bellow
     desiredLevel = true
     --level sequence
-    spells = {_E,_W,_Q,_E,_W,_R,_W,_Q,_W,_E,_R,_E,_Q,_Q,_Q,_R,_E,_W}
+    spells = {_W,_E,_Q,_E,_W,_R,_W,_Q,_W,_E,_R,_E,_Q,_Q,_Q,_R,_E,_W}
     --wards
     wards = {{x=10000,z=2860},{x=4000,z=11600},{x=4800,z=8925},{x=9125,z=5315},{x=11450,z=6990},{x=6735,z=2925},{x=2615,z=7500},{x=7300,z=11490}}
     --team dependent wards
@@ -92,6 +91,13 @@ end
     ------------------------------------------------
      
     function OnLoad()
+			if GetInventorySlotIsEmpty(ITEM_1) == false then
+			firstBought = true
+		end
+
+		startingTime = GetTickCount()
+		
+		
             --spell dispatcher
             AITimer.add(0.25,function()
                             --dont do any action if dead or recall
@@ -206,8 +212,7 @@ end
                             end
                     end)
            
-            --buy items
-            AITimer.add(0.5,function() if desiredItems == true and AIRoutine.distance(myHero,AIData.allySpawn) <  500  and items ~= nil then AISpell.buy(items) if AISpell.ward() == nil then BuyItem(2044) end end end)
+            
             --gui
             AIBind.key(desiredGuiKey,drawGui,removeGui)
             --welcome message
@@ -220,13 +225,13 @@ end
      
     ------------------------------------------------
     ---------------------GUI----------------------
-    ------------------------------------------------
+    ------------------------------------------------a
      
     guiMenu = nil
     action,actionTimer,brainTimer = nil,nil
     function drawGui()
             if guiMenu == nil then
-                    guiMenu = {AIGui.text(0,0,"SorakaBot Free Edition By szczurekPROS")}
+                    guiMenu = {AIGui.text(0,0,"SorakaBot V1.2 Free Edition By szczurekPROS")}
                     if brainTimer ~= nil then guiMenu[#guiMenu + 1] = AIGui.button(0,0,"Stop action",function()
                                     AITimer.remove(brainTimer)
                                     AITimer.remove(actionTimer)
@@ -296,6 +301,43 @@ end
             end
     end
      
+		 function OnTick()
+		if firstBought == false and GetTickCount() - startingTime > 2000 then
+			BuyItem(2044) -- stealth ward (green)
+			BuyItem(2044)
+			BuyItem(1004) -- Faerie Charm
+			BuyItem(2004) -- Mana Potion
+			BuyItem(2004)
+			BuyItem(2004)
+			BuyItem(2003) -- Health Potion
+			BuyItem(3340) -- warding totem (trinket)
+			firstBought = true
+		end
+
+		-- Run buy code only if in fountain
+		if InFountain() then
+			-- Continuous ward purchases
+			if GetTickCount() - wardBought > 30000 and GetTickCount() - startingTime > 8000 and GetInventorySlotItem(2044) == nil then
+				BuyItem(2044) -- stealth ward (green)
+				wardBought = GetTickCount()
+			end
+			
+			-- Item purchases
+			if GetTickCount() - startingTime > 5000 then	
+				if GetTickCount() > lastBuy + buyDelay then
+					if GetInventorySlotItem(shopList[nextbuyIndex]) ~= nil then
+						--Last Buy successful
+						nextbuyIndex = nextbuyIndex + 1
+					else
+						--Last Buy unsuccessful (buy again)
+						BuyItem(shopList[nextbuyIndex])
+						lastBuy = GetTickCount()
+					end
+				end
+			end
+		end
+		
+	end
     ------------------------------------------------
     ----------------------AI-----------------------
     ------------------------------------------------
@@ -543,6 +585,6 @@ end
             elseif AIRoutine.distance(myHero,followTarget) > 475 then return follow
             elseif lastEnemy[1] ~= nil  and lastEnemy[2] + 1.5 > os.clock() and AIRoutine.distance(myHero,lastEnemy[1]) < 850 and AIFind.enemyTower(myHero,1000) == nil then return attackEnemy
             elseif lastTower[1] ~= nil and lastTower[1].valid == true and lastTower[2] + 1.5 > os.clock() and AIRoutine.distance(myHero,lastTower[1]) < 850 then return  attackTower
-            else return follow end
-    end
-
+            else return follow 
+end
+	end
