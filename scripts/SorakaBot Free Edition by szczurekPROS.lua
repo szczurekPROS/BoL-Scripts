@@ -1,4 +1,4 @@
-local version = "1.03"
+local version = "1.3"
 local AUTOUPDATE = true
 local UPDATE_HOST = "raw.github.com"
 local UPDATE_PATH = "/szczurekPROS/GitHub/master/scripts/SorakaBot Free Edition by szczurekPROS.lua".."?rand="..math.random(1,10000)
@@ -26,7 +26,7 @@ end
 
 --[[AUTO UPDATE END]]--
 
-    welcome = "Welcome to SorakaBot version 1.03 Free Edition by szczurekPROS"
+    welcome = "Welcome to SorakaBot version 1.3 Free Edition by szczurekPROS"
     --[[
     SorakaBot V1.02
     Free Edition by szczurekPROS
