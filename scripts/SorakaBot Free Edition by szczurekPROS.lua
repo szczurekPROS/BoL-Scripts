@@ -1,4 +1,4 @@
-local version = "1.02"
+local version = "1.03"
 local AUTOUPDATE = true
 local UPDATE_HOST = "raw.github.com"
 local UPDATE_PATH = "/szczurekPROS/GitHub/master/scripts/SorakaBot Free Edition by szczurekPROS.lua".."?rand="..math.random(1,10000)
@@ -26,7 +26,7 @@ end
 
 --[[AUTO UPDATE END]]--
 
-    welcome = "Welcome to SorakaBot version 1.02 Free Edition by szczurekPROS"
+    welcome = "Welcome to SorakaBot version 1.03 Free Edition by szczurekPROS"
     --[[
     SorakaBot V1.02
     Free Edition by szczurekPROS
@@ -231,7 +231,7 @@ end
     action,actionTimer,brainTimer = nil,nil
     function drawGui()
             if guiMenu == nil then
-                    guiMenu = {AIGui.text(0,0,"SorakaBot V1.2 Free Edition By szczurekPROS")}
+                    guiMenu = {AIGui.text(0,0,"SorakaBot V1.3 Free Edition By szczurekPROS")}
                     if brainTimer ~= nil then guiMenu[#guiMenu + 1] = AIGui.button(0,0,"Stop action",function()
                                     AITimer.remove(brainTimer)
                                     AITimer.remove(actionTimer)
@@ -264,7 +264,6 @@ end
                     guiMenu[#guiMenu + 1] = AIGui.line(0,0,{AIGui.text(0,0,"Heal till %hp"),AIGui.slider(0,0,desiredHeal * 100,0,110,function(num) desiredHeal = num/100 end)})
                     guiMenu[#guiMenu + 1] = AIGui.line(0,0,{AIGui.text(0,0,"Replenish till %mp"),AIGui.slider(0,0,desiredReplenish * 100,0,110,function(num) desiredReplenish = num/100 end)})
                     guiMenu[#guiMenu + 1] = AIGui.line(0,0,{AIGui.tick(0,0,desiredSummoners,function(state) desiredSummoners = state end),AIGui.text(0,0,"Autosummoners")})
-                    guiMenu[#guiMenu + 1] = AIGui.line(0,0,{AIGui.tick(0,0,desiredItems,function(state) desiredItems = state end),AIGui.text(0,0,"Autoitems")})
                     guiMenu[#guiMenu + 1] = AIGui.line(0,0,{AIGui.tick(0,0,desiredLevel,function(state) desiredLevel = state if state == true and spells ~= nil then AISpell.level(spells) end end),AIGui.text(0,0,"Autolevel")})
                     guiMenu = AIGui.list(WINDOW_W*0.4,WINDOW_H*0.3,guiMenu)
             end
