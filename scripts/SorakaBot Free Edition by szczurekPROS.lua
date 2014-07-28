@@ -1,4 +1,4 @@
-local version = "1.5"
+local version = "1.6"
 local AUTOUPDATE = true
 local UPDATE_HOST = "raw.github.com"
 local UPDATE_PATH = "/szczurekPROS/GitHub/master/scripts/SorakaBot Free Edition by szczurekPROS.lua".."?rand="..math.random(1,10000)
@@ -26,7 +26,7 @@ end
 
 --[[AUTO UPDATE END]]--
 
-    welcome = "Welcome to SorakaBot version 1.5 Free Edition by szczurekPROS"
+    welcome = "Welcome to SorakaBot version 1.6 Free Edition by szczurekPROS"
     --[[
     SorakaBot V1.02
     Free Edition by szczurekPROS
@@ -59,7 +59,7 @@ end
     --enable level spells from array bellow
     desiredLevel = true
     --level sequence
-    spells = {_W,_E,_Q,_E,_W,_R,_W,_Q,_W,_E,_R,_E,_Q,_Q,_Q,_R,_E,_W}
+    spells = {_W,_E,_Q,_W,_E,_R,_W,_Q,_W,_E,_R,_E,_Q,_Q,_Q,_R,_E,_W}
     --wards
     wards = {{x=10000,z=2860},{x=4000,z=11600},{x=4800,z=8925},{x=9125,z=5315},{x=11450,z=6990},{x=6735,z=2925},{x=2615,z=7500},{x=7300,z=11490}}
     --team dependent wards
@@ -231,7 +231,7 @@ end
     action,actionTimer,brainTimer = nil,nil
     function drawGui()
             if guiMenu == nil then
-                    guiMenu = {AIGui.text(0,0,"SorakaBot V1.5 Free Edition by szczurekPROS")}
+                    guiMenu = {AIGui.text(0,0,"SorakaBot V1.6 Free Edition by szczurekPROS")}
                     if brainTimer ~= nil then guiMenu[#guiMenu + 1] = AIGui.button(0,0,"Stop action",function()
                                     AITimer.remove(brainTimer)
                                     AITimer.remove(actionTimer)
@@ -302,13 +302,10 @@ end
      
 		 function OnTick()
 		if firstBought == false and GetTickCount() - startingTime > 2000 then
-			BuyItem(2044) -- stealth ward (green)
 			BuyItem(2044)
 			BuyItem(1004) -- Faerie Charm
-			BuyItem(2004) -- Mana Potion
 			BuyItem(2004)
 			BuyItem(2004)
-			BuyItem(2003) -- Health Potion
 			BuyItem(3340) -- warding totem (trinket)
 			firstBought = true
 		end
