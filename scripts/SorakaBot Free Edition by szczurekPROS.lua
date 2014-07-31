@@ -1,4 +1,4 @@
-local version = "1.6"
+local version = "1.7"
 local AUTOUPDATE = true
 local UPDATE_HOST = "raw.github.com"
 local UPDATE_PATH = "/szczurekPROS/GitHub/master/scripts/SorakaBot Free Edition by szczurekPROS.lua".."?rand="..math.random(1,10000)
@@ -26,7 +26,7 @@ end
 
 --[[AUTO UPDATE END]]--
 
-    welcome = "Welcome to SorakaBot version 1.6 Free Edition by szczurekPROS"
+    welcome = "Welcome to SorakaBot version 1.7 by szczurekPROS"
     --[[
     SorakaBot V1.02
     Free Edition by szczurekPROS
@@ -46,7 +46,6 @@ end
     desiredItems = true
     --Item List
 	--[[ Config ]]
-	PrintChat("Support Items Loaded: Soraka")
 	shopList = {1006, 3301, 3096, 1001, 1028, 3158, 3067, 3069, 1028, 3105, 3190, 1028, 3010, 3027, 3065}
 	--item ids can be found at many websites, ie: http://www.lolking.net/items/1004
 
@@ -231,7 +230,7 @@ end
     action,actionTimer,brainTimer = nil,nil
     function drawGui()
             if guiMenu == nil then
-                    guiMenu = {AIGui.text(0,0,"SorakaBot V1.6 Free Edition by szczurekPROS")}
+                    guiMenu = {AIGui.text(0,0,"SorakaBot V1.7 by szczurekPROS")}
                     if brainTimer ~= nil then guiMenu[#guiMenu + 1] = AIGui.button(0,0,"Stop action",function()
                                     AITimer.remove(brainTimer)
                                     AITimer.remove(actionTimer)
@@ -260,11 +259,11 @@ end
                                     end
                             end
                     end
-                    guiMenu[#guiMenu + 1] = AIGui.line(0,0,{AIGui.text(0,0,"Ult till %hp"),AIGui.slider(0,0,desiredUlt * 100,0,110,function(num) desiredUlt = num/100 end)})
-                    guiMenu[#guiMenu + 1] = AIGui.line(0,0,{AIGui.text(0,0,"Heal till %hp"),AIGui.slider(0,0,desiredHeal * 100,0,110,function(num) desiredHeal = num/100 end)})
-                    guiMenu[#guiMenu + 1] = AIGui.line(0,0,{AIGui.text(0,0,"Replenish till %mp"),AIGui.slider(0,0,desiredReplenish * 100,0,110,function(num) desiredReplenish = num/100 end)})
-                    guiMenu[#guiMenu + 1] = AIGui.line(0,0,{AIGui.tick(0,0,desiredSummoners,function(state) desiredSummoners = state end),AIGui.text(0,0,"Autosummoners")})
-                    guiMenu[#guiMenu + 1] = AIGui.line(0,0,{AIGui.tick(0,0,desiredLevel,function(state) desiredLevel = state if state == true and spells ~= nil then AISpell.level(spells) end end),AIGui.text(0,0,"Autolevel")})
+                    guiMenu[#guiMenu + 1] = AIGui.line(0,0,{AIGui.text(0,0,"Auto Ult till %hp"),AIGui.slider(0,0,desiredUlt * 100,0,110,function(num) desiredUlt = num/100 end)})
+                    guiMenu[#guiMenu + 1] = AIGui.line(0,0,{AIGui.text(0,0,"Auto Heal till %hp"),AIGui.slider(0,0,desiredHeal * 100,0,110,function(num) desiredHeal = num/100 end)})
+                    guiMenu[#guiMenu + 1] = AIGui.line(0,0,{AIGui.text(0,0,"Auto Replenish till %mp"),AIGui.slider(0,0,desiredReplenish * 100,0,110,function(num) desiredReplenish = num/100 end)})
+                    guiMenu[#guiMenu + 1] = AIGui.line(0,0,{AIGui.tick(0,0,desiredSummoners,function(state) desiredSummoners = state end),AIGui.text(0,0,"Auto Summoner Spells")})
+                    guiMenu[#guiMenu + 1] = AIGui.line(0,0,{AIGui.tick(0,0,desiredLevel,function(state) desiredLevel = state if state == true and spells ~= nil then AISpell.level(spells) end end),AIGui.text(0,0,"Auto LVL Skills")})
                     guiMenu = AIGui.list(WINDOW_W*0.4,WINDOW_H*0.3,guiMenu)
             end
     end
@@ -460,7 +459,7 @@ end
     end
      
     function goToSpawn()
-            SendChat("I Go To Base")
+            SendChat("I Go Base")
             local recall = AIFind.safeTower(myHero)
             --fix recall pos
             if recall ~= nil then recall = AIRoutine.pos(recall,AIRoutine.rad(recall,AIData.allySpawn),200) end
