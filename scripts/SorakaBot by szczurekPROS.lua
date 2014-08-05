@@ -5,7 +5,7 @@ local UPDATE_PATH = "/szczurekPROS/GitHub/master/scripts/SorakaBot by szczurekPR
 local UPDATE_FILE_PATH = SCRIPT_PATH.."SorakaBot by szczurekPROS.lua"
 local UPDATE_URL = "https://"..UPDATE_HOST..UPDATE_PATH
 
-function _AutoupdaterMsg(msg) print("<font color=\"#6699ff\"><b>SorakaBot Free by szczurekPROS:</b></font> <font color=\"#FFFFFF\">"..msg..".</font>") end
+function _AutoupdaterMsg(msg) print("<font color=\"#6699ff\"><b>SorakaBot by szczurekPROS:</b></font> <font color=\"#FFFFFF\">"..msg..".</font>") end
 if AUTOUPDATE then
         local ServerData = GetWebResult(UPDATE_HOST, "/szczurekPROS/GitHub/master/scripts/Version/sorakabotfree.version")
         if ServerData then
