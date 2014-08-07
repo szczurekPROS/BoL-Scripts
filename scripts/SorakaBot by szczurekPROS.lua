@@ -1,4 +1,4 @@
-local version = "1.9"
+local version = "2.0"
 local AUTOUPDATE = true
 local UPDATE_HOST = "raw.github.com"
 local UPDATE_PATH = "/szczurekPROS/GitHub/master/scripts/SorakaBot by szczurekPROS.lua".."?rand="..math.random(1,10000)
@@ -26,11 +26,19 @@ end
 
 --[[AUTO UPDATE END]]--
 
-    welcome = "Welcome to SorakaBot version 1.9 by szczurekPROS"
+    welcome = "Welcome to SorakaBot version 2.0 by szczurekPROS"
     --[[
-    SorakaBot V1.02
-    Free Edition by szczurekPROS
+    SorakaBot V2.0 by szczurekPROS
+    GPL v2 license
     --]]
+     
+     --Auto Potion--
+    MPotUsed = false
+    HPotUsed = false
+    manaLimit = 0.55
+    hpLimit = 0.4
+    lastTimeMPot = 0
+    lastTimeHPot = 0
      
     --press this key for spell settings(F1 default)
     desiredGuiKey = 0x70
@@ -230,7 +238,7 @@ end
     action,actionTimer,brainTimer = nil,nil
     function drawGui()
             if guiMenu == nil then
-                    guiMenu = {AIGui.text(0,0,"SorakaBot V1.9 by szczurekPROS")}
+                    guiMenu = {AIGui.text(0,0,"SorakaBot V2.0 by szczurekPROS")}
                     if brainTimer ~= nil then guiMenu[#guiMenu + 1] = AIGui.button(0,0,"Stop action",function()
                                     AITimer.remove(brainTimer)
                                     AITimer.remove(actionTimer)
@@ -308,6 +316,34 @@ end
 			BuyItem(3340) -- warding totem (trinket)
 			firstBought = true
 		end
+
+local manaPercent = player.mana/player.maxMana
+        local ItemSlot = {ITEM_1,ITEM_2,ITEM_3,ITEM_4,ITEM_5,ITEM_6,}
+            for i=1, 6, 1 do
+                if player:getInventorySlot(ItemSlot[i]) == 2004 and manaLimit >= manaPercent and MPotUsed == false then
+                 FinalItemslotM = ItemSlot[i]
+                 CastSpell(FinalItemslotM)
+                 MPotUsed = true
+                 lastTimeMPot = GetTickCount()
+                end
+            end
+            if GetTickCount() - lastTimeMPot > 15000 then
+             MPotUsed = false
+            end
+      
+        local hpPercent = player.health/player.maxHealth
+            for i=1, 6, 1 do
+                if (player:getInventorySlot(ItemSlot[i]) == 2003 or player:getInventorySlot(ItemSlot[i]) == 2010) and hpLimit >= hpPercent and HPotUsed == false then
+                 FinalItemslotH = ItemSlot[i]
+                 CastSpell(FinalItemslotH)
+                 HPotUsed = true
+                 lastTimeHPot = GetTickCount()
+                end
+            end
+
+            if GetTickCount() - lastTimeHPot > 15000 then
+             HPotUsed = false
+            end
 
 		-- Run buy code only if in fountain
 		if InFountain() then
