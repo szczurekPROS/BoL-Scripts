@@ -28,7 +28,7 @@ end
 
     welcome = "Welcome to SorakaBot version 2.1 by szczurekPROS"
     --[[
-    SorakaBot V2.0 by szczurekPROS
+    SorakaBot V2.1 by szczurekPROS
     GPL v2 license
     --]]
      
