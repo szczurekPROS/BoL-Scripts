@@ -1,4 +1,4 @@
-local version = "2.1"
+local version = "2.2"
 local AUTOUPDATE = true
 local UPDATE_HOST = "raw.github.com"
 local UPDATE_PATH = "/szczurekPROS/GitHub/master/scripts/SorakaBot by szczurekPROS.lua".."?rand="..math.random(1,10000)
@@ -26,9 +26,9 @@ end
 
 --[[AUTO UPDATE END]]--
 
-    welcome = "Welcome to SorakaBot version 2.1 by szczurekPROS"
+    welcome = "Welcome to SorakaBot version 2.2 by szczurekPROS"
     --[[
-    SorakaBot V2.1 by szczurekPROS
+    SorakaBot V2.2 by szczurekPROS
     GPL v2 license
     --]]
      
@@ -43,11 +43,11 @@ end
     --press this key for spell settings(F1 default)
     desiredGuiKey = 0x70
     --soraka will heal target up to this percent
-    desiredHeal = 0.9
+    desiredHeal = 0.65
     --soraka will repelnish target mana up to this percent
-    desiredReplenish = 0.5
+    desiredReplenish = 0.75
     --soraka will ult teammates up to this percent
-    desiredUlt = 0.75
+    desiredUlt = 0.29
     --soraka will use summoners
     desiredSummoners = true
     --enable autobuy items from list
@@ -55,7 +55,6 @@ end
     --Item List
 	--[[ Config ]]
 	shopList = {1006, 3301, 3096, 1001, 1028, 3158, 3067, 3069, 1028, 3105, 3190, 1028, 3010, 3027, 3065}
-	--item ids can be found at many websites, ie: http://www.lolking.net/items/1004
 
 	nextbuyIndex = 1
 	wardBought = 0
@@ -238,7 +237,7 @@ end
     action,actionTimer,brainTimer = nil,nil
     function drawGui()
             if guiMenu == nil then
-                    guiMenu = {AIGui.text(0,0,"SorakaBot V2.1 by szczurekPROS")}
+                    guiMenu = {AIGui.text(0,0,"SorakaBot V2.2 by szczurekPROS")}
                     if brainTimer ~= nil then guiMenu[#guiMenu + 1] = AIGui.button(0,0,"Stop action",function()
                                     AITimer.remove(brainTimer)
                                     AITimer.remove(actionTimer)
@@ -267,9 +266,10 @@ end
                                     end
                             end
                     end
-                    guiMenu[#guiMenu + 1] = AIGui.line(0,0,{AIGui.text(0,0,"Auto Ult till %hp"),AIGui.slider(0,0,desiredUlt * 100,0,110,function(num) desiredUlt = num/100 end)})
+                   
                     guiMenu[#guiMenu + 1] = AIGui.line(0,0,{AIGui.text(0,0,"Auto Heal till %hp"),AIGui.slider(0,0,desiredHeal * 100,0,110,function(num) desiredHeal = num/100 end)})
-                    guiMenu[#guiMenu + 1] = AIGui.line(0,0,{AIGui.text(0,0,"Auto Replenish till %mp"),AIGui.slider(0,0,desiredReplenish * 100,0,110,function(num) desiredReplenish = num/100 end)})
+                    guiMenu[#guiMenu + 1] = AIGui.line(0,0,{AIGui.text(0,0,"Auto Mana till %mp"),AIGui.slider(0,0,desiredReplenish * 100,0,110,function(num) desiredReplenish = num/100 end)})
+                    guiMenu[#guiMenu + 1] = AIGui.line(0,0,{AIGui.text(0,0,"Auto Ultimate till %hp"),AIGui.slider(0,0,desiredUlt * 100,0,110,function(num) desiredUlt = num/100 end)})
                     guiMenu[#guiMenu + 1] = AIGui.line(0,0,{AIGui.tick(0,0,desiredSummoners,function(state) desiredSummoners = state end),AIGui.text(0,0,"Auto Summoner Spells")})
                     guiMenu[#guiMenu + 1] = AIGui.line(0,0,{AIGui.tick(0,0,desiredLevel,function(state) desiredLevel = state if state == true and spells ~= nil then AISpell.level(spells) end end),AIGui.text(0,0,"Auto LVL Skills")})
                     guiMenu = AIGui.list(WINDOW_W*0.4,WINDOW_H*0.3,guiMenu)
