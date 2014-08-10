@@ -1,4 +1,4 @@
-local version = "2.2"
+local version = "2.3"
 local AUTOUPDATE = true
 local UPDATE_HOST = "raw.github.com"
 local UPDATE_PATH = "/szczurekPROS/GitHub/master/scripts/SorakaBot by szczurekPROS.lua".."?rand="..math.random(1,10000)
@@ -26,7 +26,7 @@ end
 
 --[[AUTO UPDATE END]]--
 
-    welcome = "Welcome to SorakaBot version 2.2 by szczurekPROS"
+    welcome = "Welcome to SorakaBot version 2.3 by szczurekPROS"
     --[[
     SorakaBot V2.2 by szczurekPROS
     GPL v2 license
@@ -237,7 +237,7 @@ end
     action,actionTimer,brainTimer = nil,nil
     function drawGui()
             if guiMenu == nil then
-                    guiMenu = {AIGui.text(0,0,"SorakaBot V2.2 by szczurekPROS")}
+                    guiMenu = {AIGui.text(0,0,"SorakaBot V2.3 by szczurekPROS")}
                     if brainTimer ~= nil then guiMenu[#guiMenu + 1] = AIGui.button(0,0,"Stop action",function()
                                     AITimer.remove(brainTimer)
                                     AITimer.remove(actionTimer)
@@ -428,7 +428,7 @@ local manaPercent = player.mana/player.maxMana
     end
      
     function ward()
-            SendChat("I Go Put Ward")
+            PrintChat("I Go Put Ward")
             local pos = AIRoutine.findMatch(wards,
                                                             function(this) return AIFind.ward(this) == nil end,
                                                             function(a,b) return AIRoutine.distance(myHero,a) < AIRoutine.distance(myHero,b) end)
@@ -495,7 +495,7 @@ local manaPercent = player.mana/player.maxMana
     end
      
     function goToSpawn()
-            SendChat("I Go Base")
+            PrintChat("I Go Base")
             local recall = AIFind.safeTower(myHero)
             --fix recall pos
             if recall ~= nil then recall = AIRoutine.pos(recall,AIRoutine.rad(recall,AIData.allySpawn),200) end
