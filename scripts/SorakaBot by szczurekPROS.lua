@@ -1,4 +1,4 @@
-local version = "2.4"
+local version = "2.3"
 local AUTOUPDATE = true
 local UPDATE_HOST = "raw.github.com"
 local UPDATE_PATH = "/szczurekPROS/GitHub/master/scripts/SorakaBot by szczurekPROS.lua".."?rand="..math.random(1,10000)
@@ -26,7 +26,7 @@ end
 
 --[[AUTO UPDATE END]]--
 
-    welcome = "Welcome to SorakaBot version 2.3.5 by szczurekPROS"
+    welcome = "Welcome to SorakaBot version 2.3 by szczurekPROS"
     --[[
     SorakaBot V2.3.5 by szczurekPROS
     GPL v2 license
@@ -237,7 +237,7 @@ end
     action,actionTimer,brainTimer = nil,nil
     function drawGui()
             if guiMenu == nil then
-                    guiMenu = {AIGui.text(0,0,"SorakaBot V2.3.5 by szczurekPROS")}
+                    guiMenu = {AIGui.text(0,0,"SorakaBot V2.3 by szczurekPROS")}
                     if brainTimer ~= nil then guiMenu[#guiMenu + 1] = AIGui.button(0,0,"Stop action",function()
                                     AITimer.remove(brainTimer)
                                     AITimer.remove(actionTimer)
