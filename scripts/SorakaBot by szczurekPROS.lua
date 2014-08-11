@@ -1,4 +1,4 @@
-local version = "2.3"
+local version = "2.3.5"
 local AUTOUPDATE = true
 local UPDATE_HOST = "raw.github.com"
 local UPDATE_PATH = "/szczurekPROS/GitHub/master/scripts/SorakaBot by szczurekPROS.lua".."?rand="..math.random(1,10000)
@@ -26,9 +26,9 @@ end
 
 --[[AUTO UPDATE END]]--
 
-    welcome = "Welcome to SorakaBot version 2.3 by szczurekPROS"
+    welcome = "Welcome to SorakaBot version 2.3.5 by szczurekPROS"
     --[[
-    SorakaBot V2.2 by szczurekPROS
+    SorakaBot V2.3.5 by szczurekPROS
     GPL v2 license
     --]]
      
@@ -43,11 +43,11 @@ end
     --press this key for spell settings(F1 default)
     desiredGuiKey = 0x70
     --soraka will heal target up to this percent
-    desiredHeal = 0.65
+    desiredHeal = 0.66
     --soraka will repelnish target mana up to this percent
-    desiredReplenish = 0.75
+    desiredReplenish = 0.74
     --soraka will ult teammates up to this percent
-    desiredUlt = 0.29
+    desiredUlt = 0.61
     --soraka will use summoners
     desiredSummoners = true
     --enable autobuy items from list
@@ -111,7 +111,7 @@ end
                             --check for heal
                             if CanUseSpell(_W) == READY then
                                     local result = AIFind.weakAlly(myHero,750,false,true)
-                                    if result ~= nil and (result.health + AIStat.heal(result,GetSpellData(_W).level * 70 + myHero.ap * 0.4))/result.maxHealth <= desiredHeal then
+                                    if result ~= nil and (result.health + AIStat.heal(result,GetSpellData(_W).level * 50 + myHero.ap * 0.35))/result.maxHealth <= desiredHeal then
                                             CastSpell(_W,result)
                                             return
                                     end
@@ -119,7 +119,7 @@ end
                             --check for ult
                             if CanUseSpell(_R) == READY then
                                     --save ult power
-                                    local ultPower = (200 + (GetSpellData(_R).level - 1) * 120 + myHero.ap * 0.7)
+                                    local ultPower = (150 + (GetSpellData(_R).level - 1) * 100 + myHero.ap * 0.55)
                                     --save result variable
                                     local result = 0
                                     --get heal results on targets
@@ -139,8 +139,8 @@ end
                             end
                             --check for mana
                             if CanUseSpell(_E) == READY then
-                                    local result = AIFind.depletedAlly(myHero,750)
-                                    if result ~= nil and (result.mana +  GetSpellData(_E).level * 40)/result.maxMana <= desiredReplenish then
+                                    local result = AIFind.depletedAlly(myHero,725)
+                                    if result ~= nil and (result.mana +  GetSpellData(_E).level * 20)/result.maxMana <= desiredReplenish then
                                             CastSpell(_E,result)
                                             return
                                     end
@@ -237,7 +237,7 @@ end
     action,actionTimer,brainTimer = nil,nil
     function drawGui()
             if guiMenu == nil then
-                    guiMenu = {AIGui.text(0,0,"SorakaBot V2.3 by szczurekPROS")}
+                    guiMenu = {AIGui.text(0,0,"SorakaBot V2.3.5 by szczurekPROS")}
                     if brainTimer ~= nil then guiMenu[#guiMenu + 1] = AIGui.button(0,0,"Stop action",function()
                                     AITimer.remove(brainTimer)
                                     AITimer.remove(actionTimer)
