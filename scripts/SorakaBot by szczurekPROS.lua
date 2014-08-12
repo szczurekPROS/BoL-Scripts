@@ -1,4 +1,4 @@
-local version = "2.3"
+local version = "2.4"
 local AUTOUPDATE = true
 local UPDATE_HOST = "raw.github.com"
 local UPDATE_PATH = "/szczurekPROS/GitHub/master/scripts/SorakaBot by szczurekPROS.lua".."?rand="..math.random(1,10000)
@@ -54,7 +54,7 @@ end
     desiredItems = true
     --Item List
 	--[[ Config ]]
-	shopList = {1006, 3301, 3096, 1001, 1028, 3158, 3067, 3069, 1028, 3105, 3190, 1028, 3010, 3027, 3065}
+	shopList = {2004, 2004, 1006, 1004, 3096, 1001, 1028, 3158, 3067, 3069, 1028, 3105, 3190, 1028, 3010, 3027, 3065}
 
 	nextbuyIndex = 1
 	wardBought = 0
@@ -238,7 +238,7 @@ end
     action,actionTimer,brainTimer = nil,nil
     function drawGui()
             if guiMenu == nil then
-                    guiMenu = {AIGui.text(0,0,"SorakaBot V2.4 by szczurekPROS")}
+                    guiMenu = {AIGui.text(0,0,"SorakaBot by szczurekPROS")}
                     if brainTimer ~= nil then guiMenu[#guiMenu + 1] = AIGui.button(0,0,"Stop action",function()
                                     AITimer.remove(brainTimer)
                                     AITimer.remove(actionTimer)
@@ -273,6 +273,7 @@ end
                     guiMenu[#guiMenu + 1] = AIGui.line(0,0,{AIGui.text(0,0,"Auto Ultimate till %hp"),AIGui.slider(0,0,desiredUlt * 100,0,110,function(num) desiredUlt = num/100 end)})
                     guiMenu[#guiMenu + 1] = AIGui.line(0,0,{AIGui.tick(0,0,desiredSummoners,function(state) desiredSummoners = state end),AIGui.text(0,0,"Auto Summoner Spells")})
                     guiMenu[#guiMenu + 1] = AIGui.line(0,0,{AIGui.tick(0,0,desiredLevel,function(state) desiredLevel = state if state == true and spells ~= nil then AISpell.level(spells) end end),AIGui.text(0,0,"Auto LVL Skills")})
+                    guiMenu[#guiMenu + 1] = AIGui.line(0,0,{AIGui.text(0,0,version,function(state) version = state end),AIGui.text(0,0,"Version")})
                     guiMenu = AIGui.list(WINDOW_W*0.4,WINDOW_H*0.3,guiMenu)
             end
     end
@@ -311,9 +312,7 @@ end
 		 function OnTick()
 		if firstBought == false and GetTickCount() - startingTime > 2000 then
 			BuyItem(2044)
-			BuyItem(1004) -- Faerie Charm
-			BuyItem(2004)
-			BuyItem(2004)
+			BuyItem(3301) -- Ancient Coin
 			BuyItem(3340) -- warding totem (trinket)
 			firstBought = true
 		end
