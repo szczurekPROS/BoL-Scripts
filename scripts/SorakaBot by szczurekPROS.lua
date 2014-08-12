@@ -91,7 +91,7 @@ end
     require "AIGui"
     require "AIStat"
     require "AICondition"
-    require "AISpells"
+    require "AISpell"
      
     ------------------------------------------------
     ----------------------init----------------------
