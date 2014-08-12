@@ -26,9 +26,9 @@ end
 
 --[[AUTO UPDATE END]]--
 
-    welcome = "Welcome to SorakaBot version 2.3 by szczurekPROS"
+    welcome = "Welcome to SorakaBot version 2.4 by szczurekPROS"
     --[[
-    SorakaBot V2.3.5 by szczurekPROS
+    SorakaBot V2.4 by szczurekPROS
     GPL v2 license
     --]]
      
@@ -43,11 +43,11 @@ end
     --press this key for spell settings(F1 default)
     desiredGuiKey = 0x70
     --soraka will heal target up to this percent
-    desiredHeal = 0.66
+    desiredHeal = 0.75
     --soraka will repelnish target mana up to this percent
     desiredReplenish = 0.74
     --soraka will ult teammates up to this percent
-    desiredUlt = 0.61
+    desiredUlt = 0.80
     --soraka will use summoners
     desiredSummoners = true
     --enable autobuy items from list
@@ -91,6 +91,7 @@ end
     require "AIGui"
     require "AIStat"
     require "AICondition"
+    require "AISpells"
      
     ------------------------------------------------
     ----------------------init----------------------
@@ -237,7 +238,7 @@ end
     action,actionTimer,brainTimer = nil,nil
     function drawGui()
             if guiMenu == nil then
-                    guiMenu = {AIGui.text(0,0,"SorakaBot V2.3 by szczurekPROS")}
+                    guiMenu = {AIGui.text(0,0,"SorakaBot V2.4 by szczurekPROS")}
                     if brainTimer ~= nil then guiMenu[#guiMenu + 1] = AIGui.button(0,0,"Stop action",function()
                                     AITimer.remove(brainTimer)
                                     AITimer.remove(actionTimer)
