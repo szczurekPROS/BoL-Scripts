@@ -1,4 +1,4 @@
-local version = "1.0"
+local version = "1.1"
 local AUTOUPDATE = true
 local UPDATE_HOST = "raw.github.com"
 local UPDATE_PATH = "/szczurekPROS/GitHub/master/scripts/SorakaBot (beta) by szczurekPROS.lua".."?rand="..math.random(1,10000)
@@ -26,12 +26,33 @@ end
 
 --[[AUTO UPDATE END]]--
 
-    welcome = "Welcome to SorakaBot version 1.0 (beta) by szczurekPROS"
+    welcome = "Welcome to SorakaBot version 1.1 (beta) by szczurekPROS"
     --[[
-    SorakaBot V2.5 by szczurekPROS
+    SorakaBot (beta) V1.1 by szczurekPROS
     GPL v2 license
     --]]
      
+		 --[[ Config ]]
+local HK = 117 -- 117 is F6
+local wardRange = 600
+
+
+--Nothing
+local scriptActive = true
+local wardTimer = 0
+local wardSlot = nil
+local wardMatrix = {}
+local wardDetectedFlag = {}
+local lastWard = 0
+wardMatrix[1] = {10000,11578,10012,8924,7916,11369,6185,4911,4025,2579,4031,2788}
+wardMatrix[2] = {2868,3452,4842,5461,4595,6885,9856,8878,9621,10943,11519,7611}
+wardMatrix[3] = {}
+for i = 1, 12 do
+--Ward present nearby ?
+wardMatrix[3][i] = false
+wardDetectedFlag[i] = false
+end
+		 
 		 --Classes Area
 		root = nil
 		 --Task Class
@@ -45,6 +66,11 @@ end
     lastTimeMPot = 0
     lastTimeHPot = 0
      
+		 --Auto (Q)
+local STARCALL_RANGE = 675
+local DEFAULT_STARCALL_MODE = 3
+local DEFAULT_STARCALL_MIN_MANA = 300
+local DEFAULT_NUM_HIT_MINIONS = 3
     --press this key for spell settings(F1 default)
     desiredGuiKey = 0x70
     --soraka will heal target up to this percent
@@ -298,6 +324,11 @@ end
 			BuyItem(3340) -- warding totem (trinket)
 			firstBought = true
 		end
+		
+		-- Auto (Q)
+		if config.autoStarcall.enabled and player:CanUseSpell(_Q) == READY and player.mana > config.autoStarcall.starcallMinMana then
+			doSorakaStarcall()
+		end
 
 local manaPercent = player.mana/player.maxMana
         local ItemSlot = {ITEM_1,ITEM_2,ITEM_3,ITEM_4,ITEM_5,ITEM_6,}
@@ -350,7 +381,35 @@ local manaPercent = player.mana/player.maxMana
 			end
 		end
 		
-	end
+		if scriptActive then
+if GetTickCount() - wardTimer > 10000 then
+wardUpdate()
+end	
+
+if (myHero:CanUseSpell(ITEM_7) == READY and myHero:getItem(ITEM_7).id == 3340) then
+wardSlot = GetInventorySlotItem(3340)
+elseif (myHero:CanUseSpell(ITEM_7) == READY and myHero:getItem(ITEM_7).id == 3350) then
+wardSlot = GetInventorySlotItem(3350)
+elseif GetInventorySlotItem(2044) ~= nil then
+wardSlot = GetInventorySlotItem(2044)
+elseif GetInventorySlotItem(2043) ~= nil then
+wardSlot = GetInventorySlotItem(2043)
+else
+wardSlot = nil
+end
+
+for i = 1, 12 do
+if wardSlot ~= nil and GetTickCount() - lastWard > 2000 then
+if math.sqrt((wardMatrix[1][i] - player.x)*(wardMatrix[1][i] - player.x) + (wardMatrix[2][i] - player.z)*(wardMatrix[2][i] - player.z)) < 600 and wardMatrix[3][i] == false then
+CastSpell( wardSlot, wardMatrix[1][i], wardMatrix[2][i] )
+lastWard = GetTickCount()
+wardMatrix[3][i] = true
+break
+end
+end
+end
+end	
+end
     ------------------------------------------------
     ------------------Auto Follow-------------------
     ------------------------------------------------
@@ -788,11 +847,12 @@ end
 function drawMenu()
 	config = scriptConfig("Sorakabot Auto Follow", "Passive Follow") 
 
-	config:addParam("enableScript", "Auto Follow", SCRIPT_PARAM_ONKEYTOGGLE, true, 115)
+	config:addParam("enableScript", "Auto Follow", SCRIPT_PARAM_ONKEYTOGGLE, true, 116)
 	  
 	config:addSubMenu("Follow Settings", "followChamp")
 	config:addSubMenu("Regen at Fountain", "fontRegen")
 	config:addSubMenu("Auto use Summoner Spells", "autoSpells")
+	config:addSubMenu("Auto Starcall", "autoStarcall")
 	
 	config.fontRegen:addParam("hpRegen", "Min HP% to leave", SCRIPT_PARAM_SLICE, DEFAULT_HP_REGEN, 0, 100, 0)
 	config.fontRegen:addParam("manaRegen", "Min Mana% to leave", SCRIPT_PARAM_SLICE, DEFAULT_MANA_REGEN, 0, 100, 0)
@@ -806,6 +866,14 @@ function drawMenu()
 	config.followChamp:addParam("followDist", "Follow Distance", SCRIPT_PARAM_SLICE, DEFAULT_FOLLOW_DISTANCE, 400, 2000, 0)
 	config.followChamp:addParam("drawFollowDist", "Draw Follow Distance", SCRIPT_PARAM_ONOFF, true)
 
+config.autoStarcall:addParam("enabled", "Enable", SCRIPT_PARAM_ONOFF, true)
+	config.autoStarcall:addParam("starcallMode", "Starcall Mode", SCRIPT_PARAM_LIST, DEFAULT_STARCALL_MODE, { "Harass Only", "Farm/Push", "Both (hit any)", "Both (hit enemy and minions)" })
+	config.autoStarcall:addParam("starcallMinMana", "Starcall Minimum Mana", SCRIPT_PARAM_SLICE, DEFAULT_STARCALL_MIN_MANA, 50, 500, 0)
+	config.autoStarcall:addParam("numOfHitMinions", "Minimum Hit Minions", SCRIPT_PARAM_SLICE, DEFAULT_NUM_HIT_MINIONS, 1, 10, 0)
+	
+	config:addSubMenu("Auto Wards F6 - On/Off", "autowards")
+	
+	enemyMinions = minionManager(MINION_ENEMY, STARCALL_RANGE, player, MINION_SORT_HEALTH_ASC) -- for starcall
 end
 
 function initVariables()
@@ -840,4 +908,105 @@ function initVariables()
 	enemySpawn = nil
 
 	detectSpawnPoints()
+end
+
+function doSorakaStarcall()
+	-- Perform Starcall based on starcallMode
+	local hitEnemy = false
+	local hitMinions = false
+	
+	-- Calculations
+	local enemy = GetPlayer(TEAM_ENEMY, false, false, player, STARCALL_RANGE, NO_RESOURCE)
+	
+	if enemy ~= nil then hitEnemy = true end
+	
+	-- Minion Calculations
+	enemyMinions:update()
+	local totalMinionsInRange = 0
+	
+	for _, minion in pairs(enemyMinions.objects) do
+		if player:GetDistance(minion) < STARCALL_RANGE then
+			totalMinionsInRange = totalMinionsInRange + 1
+		end
+	
+		if totalMinionsInRange >= config.autoStarcall.numOfHitMinions then 
+			hitMinions = true
+			break 
+		end
+	end
+		
+	if config.autoStarcall.starcallMode == 1 and hitEnemy then
+		CastSpell(_Q)
+	elseif config.autoStarcall.starcallMode == 2 and hitMinions then 
+		CastSpell(_Q)
+	elseif config.autoStarcall.starcallMode == 3 and (hitEnemy or hitMinions) then
+		CastSpell(_Q)
+	elseif config.autoStarcall.starcallMode == 4 and (hitEnemy and hitMinions) then
+		CastSpell(_Q)
+	end
+end
+
+function GetPlayer(team, includeDead, includeSelf, distanceTo, distanceAmount, resource)
+	local target = nil
+	
+	for i=1, heroManager.iCount do
+		local member = heroManager:GetHero(i)
+		
+		if member ~= nil and member.type == "obj_AI_Hero" and member.team == team and (member.dead ~= true or includeDead) then
+			if member.charName ~= player.charName or includeSelf then
+				if distanceAmount == GLOBAL_RANGE or member:GetDistance(distanceTo) <= distanceAmount then
+					if target == nil then target = member end
+					
+					if resource == "health" then --least health
+						if member.health < target.health then target = member end
+					elseif resource == "mana" then --least mana
+						if member.mana < target.mana then target = member end
+					elseif resource == "AD" then --highest AD
+						if member.totalDamage > target.totalDamage then target = member end
+					elseif resource == NO_RESOURCE then
+						return member -- as any member is eligible
+					end
+				end
+			end
+		end
+	end
+	
+	return target
+end
+
+function wardUpdate()
+for i = 1, 12 do
+wardDetectedFlag[i] = false
+end
+for k = 1, objManager.maxObjects do
+local object = objManager:GetObject(k)
+if object ~= nil and (string.find(object.name, "Ward") ~= nil or string.find(object.name, "Wriggle") ~= nil) then
+for i = 1, 12 do
+if math.sqrt((wardMatrix[1][i] - object.x)*(wardMatrix[1][i] - object.x) + (wardMatrix[2][i] - object.z)*(wardMatrix[2][i] - object.z)) < 1100 then
+wardDetectedFlag[i] = true
+wardMatrix[3][i] = true
+end
+end
+end
+for i = 1, 12 do
+if wardDetectedFlag[i] == false then
+wardMatrix[3][i] = false
+end
+end
+end
+wardTimer = GetTickCount()
+end
+
+function OnWndMsg(msg,key)
+    if key == HK then
+        if msg == KEY_DOWN then
+         if scriptActive then
+         scriptActive = false
+         PrintChat("Sorakabot Auto Wards disabled")
+  else
+     scriptActive = true
+     PrintChat("Sorakabot Auto Wards enabled")
+     end
+        end
+    end
 end
