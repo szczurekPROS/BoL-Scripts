@@ -1,4 +1,5 @@
 --[[AUTO UPDATE]]--
+
 local version = "1.1"
 local AUTOUPDATE = true
 local UPDATE_HOST = "raw.github.com"
