@@ -1,8 +1,33 @@
-	
+--[[AUTO UPDATE]]--
+local version = "1.1"
+local AUTOUPDATE = true
+local UPDATE_HOST = "raw.github.com"
+local UPDATE_PATH = "/szczurekPROS/GitHub/master/scripts/Jaximus Prime by szczurekPROS.lua".."?rand="..math.random(1,10000)
+local UPDATE_FILE_PATH = SCRIPT_PATH.."Jaximus Prime by szczurekPROS.lua"
+local UPDATE_URL = "https://"..UPDATE_HOST..UPDATE_PATH
 
-           
-     
-        --[[Jaximus Prime 1.0(beta) by szczurekPROS]]--
+function _AutoupdaterMsg(msg) print("<font color=\"#6699ff\"><b>Jaximus Prime by szczurekPROS:</b></font> <font color=\"#FFFFFF\">"..msg..".</font>") end
+if AUTOUPDATE then
+        local ServerData = GetWebResult(UPDATE_HOST, "/szczurekPROS/GitHub/master/scripts/Version/Jaximus Prime.version")
+        if ServerData then 
+                ServerVersion = type(tonumber(ServerData)) == "number" and tonumber(ServerData) or nil
+                if ServerVersion then
+                        if tonumber(version) < ServerVersion then
+                                _AutoupdaterMsg("New version available"..ServerVersion)
+                                _AutoupdaterMsg("Updating, please don't press F9")
+                                DelayAction(function() DownloadFile(UPDATE_URL, UPDATE_FILE_PATH, function () _AutoupdaterMsg("Successfully updated. ("..version.." => "..ServerVersion.."), press F9 twice to load the updated version.") end) end, 3)
+                        else
+                                _AutoupdaterMsg("You have got the latest version ("..ServerVersion..")")
+                        end
+                end
+        else
+                _AutoupdaterMsg("Error downloading version info")
+        end
+end
+
+--[[AUTO UPDATE END]]--
+
+ --[[Jaximus Prime 1.1 by szczurekPROS]]--
          
         if myHero.charName ~= "Jax" then return end
         --Killable--
@@ -87,7 +112,7 @@
                 for i=1, heroManager.iCount do
                         waittxt[i] = i*3
                 end
-                PrintChat(" >> Jaximus Prime by szczurekPROS 1.0(beta) loaded!")
+                PrintChat(" >> Jaximus Prime by szczurekPROS 1.1 loaded!")
         end
          
         function OnProcessSpell(unit, spell)
