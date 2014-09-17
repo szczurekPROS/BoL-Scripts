@@ -1,6 +1,6 @@
 [Version]
-NewVersion=2.0.0.0
+NewVersion=1.0.0.0
 [Language]
 Lang=en
 [Setup]
-Up=http://download1494.mediafire.com/e5ykzjkpz4rg/r3e6t3n7udh3y3k/szczurekPROSMultiCenter.exe
+Up=http://download1494.mediafire.com/e5ykzjkpz4rg/r3e6t3n7udh3y3k/szczurekPROS Multi Center.exe
