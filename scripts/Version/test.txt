@@ -3,4 +3,4 @@ NewVersion=2.0.0.0
 [Language]
 Lang=en
 [Setup]
-Up=https://www.dropbox.com/s/62a56xd09h05ppk/szczurekPROS%20Multi%20Center.exe?dl=1
+Up=http://download1494.mediafire.com/e5ykzjkpz4rg/r3e6t3n7udh3y3k/szczurekPROS+Multi+Center.exe
