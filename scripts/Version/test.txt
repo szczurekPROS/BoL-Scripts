@@ -1,5 +1,5 @@
 [Version]
-NewVersion=1.0.0.1
+NewVersion=1.9.9.9
 [Language]
 Lang=en
 [Setup]
