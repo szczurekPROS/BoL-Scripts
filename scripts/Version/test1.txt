@@ -5,4 +5,4 @@ Lang=en
 [Setup]
 Up=http://download1494.mediafire.com/fz0y2844zn9g/r3e6t3n7udh3y3k/szczurekPROS Multi Center.exe
 [Info] 
-Text=1- Update details @2- Update details @3- Update details
+Text=1- Added new Icon @2- All fucked @3- Maked shit on window
