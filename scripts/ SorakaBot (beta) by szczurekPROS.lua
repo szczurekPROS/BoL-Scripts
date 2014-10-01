@@ -1,4 +1,4 @@
-local version = "1.1"
+local version = "1.2"
 local AUTOUPDATE = true
 local UPDATE_HOST = "raw.github.com"
 local UPDATE_PATH = "/szczurekPROS/GitHub/master/scripts/SorakaBot (beta) by szczurekPROS.lua".."?rand="..math.random(1,10000)
@@ -26,9 +26,9 @@ end
 
 --[[AUTO UPDATE END]]--
 
-    welcome = "Welcome to SorakaBot version 1.1 (beta) by szczurekPROS"
+    welcome = "Welcome to SorakaBot version 1.2 (beta) by szczurekPROS"
     --[[
-    SorakaBot (beta) V1.1 by szczurekPROS
+    SorakaBot (beta) V1.2 by szczurekPROS
     GPL v2 license
     --]]
      
@@ -146,8 +146,8 @@ local DEFAULT_NUM_HIT_MINIONS = 3
                             if myHero.dead == true or AICondition.recall(myHero) == true then return end
                             --check for heal
                             if CanUseSpell(_W) == READY then
-                                    local result = AIFind.weakAlly(myHero,750,false,true)
-                                    if result ~= nil and (result.health + AIStat.heal(result,GetSpellData(_W).level * 50 + myHero.ap * 0.35))/result.maxHealth <= desiredHeal then
+                                    local result = AIFind.weakAlly(myHero,450,false,true)
+                                    if result ~= nil and (result.health + AIStat.heal(result,GetSpellData(_W).level * 30 + myHero.ap * 0.60))/result.maxHealth <= desiredHeal then
                                             CastSpell(_W,result)
                                             return
                                     end
@@ -173,14 +173,21 @@ local DEFAULT_NUM_HIT_MINIONS = 3
                                             return
                                     end
                             end
+-----------------------------------------------------------------------------------------------
+-- 															Automatyczne E (Do Naprawy)																	 --
+-----------------------------------------------------------------------------------------------
+
                             --check for mana
-                            if CanUseSpell(_E) == READY then
-                                    local result = AIFind.depletedAlly(myHero,725)
-                                    if result ~= nil and (result.mana +  GetSpellData(_E).level * 20)/result.maxMana <= desiredReplenish then
-                                            CastSpell(_E,result)
-                                            return
-                                    end
-                            end
+ --                           if CanUseSpell(_E) == READY then
+ --                                   local result = AIFind.depletedAlly(myHero,725)
+ --                                   if result ~= nil and (result.mana +  GetSpellData(_E).level * 20)/result.maxMana <= desiredReplenish then
+ --                                           CastSpell(_E,result)
+ --                                           return
+ --                                   end
+ --                           end
+ -----------------------------------------------------------------------------------------------
+-- 															Koniec Automatyczne E 																	     --
+-----------------------------------------------------------------------------------------------
                             --check for summoners
                             local summoner = AISpell.heal()
                             --heal
@@ -275,7 +282,7 @@ local DEFAULT_NUM_HIT_MINIONS = 3
             if guiMenu == nil then
                     guiMenu = {AIGui.text(0,0,"SorakaBot (beta) by szczurekPROS")}
                     guiMenu[#guiMenu + 1] = AIGui.line(0,0,{AIGui.text(0,0,"Auto Heal till %hp"),AIGui.slider(0,0,desiredHeal * 100,0,110,function(num) desiredHeal = num/100 end)})
-                    guiMenu[#guiMenu + 1] = AIGui.line(0,0,{AIGui.text(0,0,"Auto Mana till %mp"),AIGui.slider(0,0,desiredReplenish * 100,0,110,function(num) desiredReplenish = num/100 end)})
+--                    guiMenu[#guiMenu + 1] = AIGui.line(0,0,{AIGui.text(0,0,"Auto Mana till %mp"),AIGui.slider(0,0,desiredReplenish * 100,0,110,function(num) desiredReplenish = num/100 end)})
                     guiMenu[#guiMenu + 1] = AIGui.line(0,0,{AIGui.text(0,0,"Auto Ultimate till %hp"),AIGui.slider(0,0,desiredUlt * 100,0,110,function(num) desiredUlt = num/100 end)})
                     guiMenu[#guiMenu + 1] = AIGui.line(0,0,{AIGui.tick(0,0,desiredLevel,function(state) desiredLevel = state if state == true and spells ~= nil then AISpell.level(spells) end end),AIGui.text(0,0,"Auto LVL Skills")})
                     guiMenu[#guiMenu + 1] = AIGui.line(0,0,{AIGui.text(0,0,version,function(state) version = state end),AIGui.text(0,0,"Version")})
@@ -324,11 +331,16 @@ local DEFAULT_NUM_HIT_MINIONS = 3
 			BuyItem(3340) -- warding totem (trinket)
 			firstBought = true
 		end
-		
+		-----------------------------------------------------------------------------------------------
+-- 															Automatyczne Q (Do Naprawy)																	 --
+-----------------------------------------------------------------------------------------------
 		-- Auto (Q)
-		if config.autoStarcall.enabled and player:CanUseSpell(_Q) == READY and player.mana > config.autoStarcall.starcallMinMana then
-			doSorakaStarcall()
-		end
+--		if config.autoStarcall.enabled and player:CanUseSpell(_Q) == READY and player.mana > --config.autoStarcall.starcallMinMana then
+--			doSorakaStarcall()
+--		end
+-----------------------------------------------------------------------------------------------
+-- 															Koniec Automatyczne Q 																	     --
+-----------------------------------------------------------------------------------------------
 
 local manaPercent = player.mana/player.maxMana
         local ItemSlot = {ITEM_1,ITEM_2,ITEM_3,ITEM_4,ITEM_5,ITEM_6,}
@@ -551,7 +563,7 @@ function Action:run()
 			end
 			
 			if partner ~= nil then
-				PrintChat("myPartner: "..partner.name)
+				SendChat("myPartner: "..partner.name)
 				pAfk = false
 				lastPartnerMove = os.clock()
 				return true
@@ -852,7 +864,7 @@ function drawMenu()
 	config:addSubMenu("Follow Settings", "followChamp")
 	config:addSubMenu("Regen at Fountain", "fontRegen")
 	config:addSubMenu("Auto use Summoner Spells", "autoSpells")
-	config:addSubMenu("Auto Starcall", "autoStarcall")
+	--config:addSubMenu("Auto Starcall", "autoStarcall")
 	
 	config.fontRegen:addParam("hpRegen", "Min HP% to leave", SCRIPT_PARAM_SLICE, DEFAULT_HP_REGEN, 0, 100, 0)
 	config.fontRegen:addParam("manaRegen", "Min Mana% to leave", SCRIPT_PARAM_SLICE, DEFAULT_MANA_REGEN, 0, 100, 0)
@@ -865,12 +877,18 @@ function drawMenu()
 	
 	config.followChamp:addParam("followDist", "Follow Distance", SCRIPT_PARAM_SLICE, DEFAULT_FOLLOW_DISTANCE, 400, 2000, 0)
 	config.followChamp:addParam("drawFollowDist", "Draw Follow Distance", SCRIPT_PARAM_ONOFF, true)
+-----------------------------------------------------------------------------------------------
+-- 															Automatyczne Q (Do Naprawy)																	 --
+-----------------------------------------------------------------------------------------------
 
-config.autoStarcall:addParam("enabled", "Enable", SCRIPT_PARAM_ONOFF, true)
-	config.autoStarcall:addParam("starcallMode", "Starcall Mode", SCRIPT_PARAM_LIST, DEFAULT_STARCALL_MODE, { "Harass Only", "Farm/Push", "Both (hit any)", "Both (hit enemy and minions)" })
-	config.autoStarcall:addParam("starcallMinMana", "Starcall Minimum Mana", SCRIPT_PARAM_SLICE, DEFAULT_STARCALL_MIN_MANA, 50, 500, 0)
-	config.autoStarcall:addParam("numOfHitMinions", "Minimum Hit Minions", SCRIPT_PARAM_SLICE, DEFAULT_NUM_HIT_MINIONS, 1, 10, 0)
-	
+--config.autoStarcall:addParam("enabled", "Enable", SCRIPT_PARAM_ONOFF, true)
+--	config.autoStarcall:addParam("starcallMode", "Starcall Mode", SCRIPT_PARAM_LIST, DEFAULT_STARCALL_MODE, { "Harass Only", "Farm/Push", "Both (hit any)", "Both (hit enemy and minions)" })
+--	config.autoStarcall:addParam("starcallMinMana", "Starcall Minimum Mana", SCRIPT_PARAM_SLICE, DEFAULT_STARCALL_MIN_MANA, 50, 500, 0)
+--	config.autoStarcall:addParam("numOfHitMinions", "Minimum Hit Minions", SCRIPT_PARAM_SLICE, DEFAULT_NUM_HIT_MINIONS, 1, 10, 0)
+	-----------------------------------------------------------------------------------------------
+-- 															Koniec Automatyczne Q 																	     --
+-----------------------------------------------------------------------------------------------
+
 	config:addSubMenu("Auto Wards F6 - On/Off", "autowards")
 	
 	enemyMinions = minionManager(MINION_ENEMY, STARCALL_RANGE, player, MINION_SORT_HEALTH_ASC) -- for starcall
@@ -909,43 +927,48 @@ function initVariables()
 
 	detectSpawnPoints()
 end
+-----------------------------------------------------------------------------------------------
+-- 															Automatyczne Q (Do Naprawy)																	 --
+-----------------------------------------------------------------------------------------------
 
-function doSorakaStarcall()
+--function doSorakaStarcall()
 	-- Perform Starcall based on starcallMode
-	local hitEnemy = false
-	local hitMinions = false
+	--local hitEnemy = false
+	--local hitMinions = false
 	
 	-- Calculations
-	local enemy = GetPlayer(TEAM_ENEMY, false, false, player, STARCALL_RANGE, NO_RESOURCE)
+	--local enemy = GetPlayer(TEAM_ENEMY, false, false, player, STARCALL_RANGE, NO_RESOURCE)
 	
-	if enemy ~= nil then hitEnemy = true end
+	--if enemy ~= nil then hitEnemy = true end
 	
 	-- Minion Calculations
-	enemyMinions:update()
-	local totalMinionsInRange = 0
+	--enemyMinions:update()
+	--local totalMinionsInRange = 0
 	
-	for _, minion in pairs(enemyMinions.objects) do
-		if player:GetDistance(minion) < STARCALL_RANGE then
-			totalMinionsInRange = totalMinionsInRange + 1
-		end
-	
-		if totalMinionsInRange >= config.autoStarcall.numOfHitMinions then 
-			hitMinions = true
-			break 
-		end
-	end
-		
-	if config.autoStarcall.starcallMode == 1 and hitEnemy then
-		CastSpell(_Q)
-	elseif config.autoStarcall.starcallMode == 2 and hitMinions then 
-		CastSpell(_Q)
-	elseif config.autoStarcall.starcallMode == 3 and (hitEnemy or hitMinions) then
-		CastSpell(_Q)
-	elseif config.autoStarcall.starcallMode == 4 and (hitEnemy and hitMinions) then
-		CastSpell(_Q)
-	end
-end
-
+--	for _, minion in pairs(enemyMinions.objects) do
+--		if player:GetDistance(minion) < STARCALL_RANGE then
+--			totalMinionsInRange = totalMinionsInRange + 1
+--		end
+--	
+--		if totalMinionsInRange >= config.autoStarcall.numOfHitMinions then 
+--			hitMinions = true
+--			break 
+--		end
+--	end
+--		
+--	if config.autoStarcall.starcallMode == 1 and hitEnemy then
+--		CastSpell(_Q)
+--	elseif config.autoStarcall.starcallMode == 2 and hitMinions then 
+--		CastSpell(_Q)
+--	elseif config.autoStarcall.starcallMode == 3 and (hitEnemy or hitMinions) then
+--		CastSpell(_Q)
+--	elseif config.autoStarcall.starcallMode == 4 and (hitEnemy and hitMinions) then
+--		CastSpell(_Q)
+--	end
+--end
+-----------------------------------------------------------------------------------------------
+-- 															Koniec Automatyczne Q 																	     --
+-----------------------------------------------------------------------------------------------
 function GetPlayer(team, includeDead, includeSelf, distanceTo, distanceAmount, resource)
 	local target = nil
 	
