@@ -1,4 +1,4 @@
-local version = "2.4"
+local version = "2.5"
 local AUTOUPDATE = true
 local UPDATE_HOST = "raw.github.com"
 local UPDATE_PATH = "/szczurekPROS/GitHub/master/scripts/SorakaBot by szczurekPROS.lua".."?rand="..math.random(1,10000)
@@ -26,9 +26,9 @@ end
 
 --[[AUTO UPDATE END]]--
 
-    welcome = "Welcome to SorakaBot version 2.4 by szczurekPROS"
+    welcome = "Welcome to SorakaBot version 2.5 by szczurekPROS"
     --[[
-    SorakaBot V2.4 by szczurekPROS
+    SorakaBot V2.5 by szczurekPROS
     GPL v2 license
     --]]
      
@@ -111,8 +111,8 @@ end
                             if myHero.dead == true or AICondition.recall(myHero) == true then return end
                             --check for heal
                             if CanUseSpell(_W) == READY then
-                                    local result = AIFind.weakAlly(myHero,750,false,true)
-                                    if result ~= nil and (result.health + AIStat.heal(result,GetSpellData(_W).level * 50 + myHero.ap * 0.35))/result.maxHealth <= desiredHeal then
+                                    local result = AIFind.weakAlly(myHero,450,false,true)
+                                    if result ~= nil and (result.health + AIStat.heal(result,GetSpellData(_W).level * 30 + myHero.ap * 0.60))/result.maxHealth <= desiredHeal then
                                             CastSpell(_W,result)
                                             return
                                     end
@@ -138,14 +138,20 @@ end
                                             return
                                     end
                             end
+                            -----------------------------------------------------------------------------------------------
+-- 															Automatyczne E (Do Naprawy)																	 --
+-----------------------------------------------------------------------------------------------
                             --check for mana
-                            if CanUseSpell(_E) == READY then
-                                    local result = AIFind.depletedAlly(myHero,725)
-                                    if result ~= nil and (result.mana +  GetSpellData(_E).level * 20)/result.maxMana <= desiredReplenish then
-                                            CastSpell(_E,result)
-                                            return
-                                    end
-                            end
+                            --if CanUseSpell(_E) == READY then
+                            --        local result = AIFind.depletedAlly(myHero,725)
+                            --        if result ~= nil and (result.mana +  GetSpellData(_E).level * 20)/result.maxMana <= desiredReplenish then
+                            --                CastSpell(_E,result)
+                            --                return
+                            --        end
+                            -- end
+                            -----------------------------------------------------------------------------------------------
+-- 															Koniec Automatyczne E 																	     --
+-----------------------------------------------------------------------------------------------
                             --check for summoners
                             local summoner = AISpell.heal()
                             --heal
@@ -269,9 +275,9 @@ end
                     end
                    
                     guiMenu[#guiMenu + 1] = AIGui.line(0,0,{AIGui.text(0,0,"Auto Heal till %hp"),AIGui.slider(0,0,desiredHeal * 100,0,110,function(num) desiredHeal = num/100 end)})
-                    guiMenu[#guiMenu + 1] = AIGui.line(0,0,{AIGui.text(0,0,"Auto Mana till %mp"),AIGui.slider(0,0,desiredReplenish * 100,0,110,function(num) desiredReplenish = num/100 end)})
+                    --guiMenu[#guiMenu + 1] = AIGui.line(0,0,{AIGui.text(0,0,"Auto Mana till %mp"),AIGui.slider(0,0,desiredReplenish * 100,0,110,function(num) desiredReplenish = num/100 end)})
                     guiMenu[#guiMenu + 1] = AIGui.line(0,0,{AIGui.text(0,0,"Auto Ultimate till %hp"),AIGui.slider(0,0,desiredUlt * 100,0,110,function(num) desiredUlt = num/100 end)})
-                    guiMenu[#guiMenu + 1] = AIGui.line(0,0,{AIGui.tick(0,0,desiredSummoners,function(state) desiredSummoners = state end),AIGui.text(0,0,"Auto Summoner Spells")})
+                    guiMenu[#guiMenu + 1] = AIGui.line(0,0,{AIGui.tick(0,0,desiredSummoners,function(state) desiredSummoners = state end),AIGui.text(0,0,"Auto Summoner Spells (ATM Bugged)")})
                     guiMenu[#guiMenu + 1] = AIGui.line(0,0,{AIGui.tick(0,0,desiredLevel,function(state) desiredLevel = state if state == true and spells ~= nil then AISpell.level(spells) end end),AIGui.text(0,0,"Auto LVL Skills")})
                     guiMenu[#guiMenu + 1] = AIGui.line(0,0,{AIGui.text(0,0,version,function(state) version = state end),AIGui.text(0,0,"Version")})
                     guiMenu = AIGui.list(WINDOW_W*0.4,WINDOW_H*0.3,guiMenu)
@@ -394,7 +400,7 @@ local manaPercent = player.mana/player.maxMana
             return AITimer.add(0.1,function()
                             if target ~= nil and target.dead == false and target.visible == true then
                                     myHero:Attack(target)
-                                    CastSpell(_E,target)
+                                    CastSpell(_Q,target)
                                     if AIRoutine.distance(myHero,target) < 530 then
                                             CastSpell(_Q)
                                             local summoner = AISpell.ignite()
