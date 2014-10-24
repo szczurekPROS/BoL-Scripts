@@ -1,9 +1,9 @@
-Credits: 
-mr1r15h - Jax KillTime The Real Weapon
+-- Credits: 
+-- mr1r15h - Jax KillTime The Real Weapon
 
 --[[AUTO UPDATE]]--
 
-local version = "1.1"
+local version = "1.2"
 local AUTOUPDATE = true
 local UPDATE_HOST = "raw.github.com"
 local UPDATE_PATH = "/szczurekPROS/GitHub/master/scripts/Jaximus Prime by szczurekPROS.lua".."?rand="..math.random(1,10000)
@@ -37,7 +37,7 @@ end
         --Killable--
         local waittxt = {}
         local calculationenemy = 1
-        local floattext = {"Full Combo","Combo","Quick Combo","KillTime!","Harass",""}
+        local floattext = {"Full Combo","Combo","Quick Combo","Kill Him!","Harass",""}
         local killable = {}
         --Spells--
         local QReady, WReady, EReady, RReady = false, false, false, false
