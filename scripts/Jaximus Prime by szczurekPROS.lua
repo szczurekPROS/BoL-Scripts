@@ -1,3 +1,6 @@
+Credits: 
+mr1r15h - Jax KillTime The Real Weapon
+
 --[[AUTO UPDATE]]--
 
 local version = "1.1"
