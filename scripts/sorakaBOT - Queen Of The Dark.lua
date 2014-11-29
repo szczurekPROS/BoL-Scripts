@@ -1,5 +1,5 @@
 local version = "1.0"
-local AUTOUPDATE = false
+local AUTOUPDATE = true
 local UPDATE_HOST = "raw.github.com"
 local UPDATE_PATH = "/szczurekPROS/GitHub/master/scripts/sorakaBOT - Queen Of The Dark.lua".."?rand="..math.random(1,10000)
 local UPDATE_FILE_PATH = SCRIPT_PATH.."sorakaBOT - Queen Of The Dark.lua"
