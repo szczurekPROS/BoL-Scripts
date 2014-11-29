@@ -1,13 +1,13 @@
 local version = "1.0"
 local AUTOUPDATE = false
 local UPDATE_HOST = "raw.github.com"
-local UPDATE_PATH = "/szczurekPROS/GitHub/master/scripts/SorakaBot (beta) by szczurekPROS.lua".."?rand="..math.random(1,10000)
+local UPDATE_PATH = "/szczurekPROS/GitHub/master/scripts/sorakaBOT - Queen Of The Dark.lua".."?rand="..math.random(1,10000)
 local UPDATE_FILE_PATH = SCRIPT_PATH.."sorakaBOT - Queen Of The Dark.lua"
 local UPDATE_URL = "https://"..UPDATE_HOST..UPDATE_PATH
 
 function _AutoupdaterMsg(msg) print("<font color=\"#666666\"><b>sorakaBOT - Queen Of The Dark:</b></font> <font color=\"#FFFFFF\">"..msg..".</font>") end
 if AUTOUPDATE then
-        local ServerData = GetWebResult(UPDATE_HOST, "/szczurekPROS/GitHub/master/scripts/Version/sorakabot(beta).version")
+        local ServerData = GetWebResult(UPDATE_HOST, "/szczurekPROS/GitHub/master/scripts/Version/sorakaBOT - Queen Of The Dark")
         if ServerData then
                 ServerVersion = type(tonumber(ServerData)) == "number" and tonumber(ServerData) or nil
                 if ServerVersion then
