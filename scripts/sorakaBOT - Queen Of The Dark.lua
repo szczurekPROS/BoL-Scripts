@@ -72,7 +72,7 @@ end
     lastTimeMPot = 0
     lastTimeHPot = 0
 		
---press this key for spell settings(F1 default)
+--press this key for spell settings(Shift default)
     desiredGuiKey = 0x10
     --soraka will heal target up to this percent
     desiredHeal = 0.75
