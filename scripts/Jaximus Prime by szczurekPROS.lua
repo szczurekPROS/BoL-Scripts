@@ -3,7 +3,7 @@
 
 --[[AUTO UPDATE]]--
 
-local version = "1.2"
+local version = "1.3"
 local AUTOUPDATE = true
 local UPDATE_HOST = "raw.github.com"
 local UPDATE_PATH = "/szczurekPROS/GitHub/master/scripts/Jaximus Prime by szczurekPROS.lua".."?rand="..math.random(1,10000)
@@ -31,7 +31,7 @@ end
 
 --[[AUTO UPDATE END]]--
 
- --[[Jaximus Prime 1.1 by szczurekPROS]]--
+ --[[Jaximus Prime 1.3 by szczurekPROS]]--
          
         if myHero.charName ~= "Jax" then return end
         --Killable--
@@ -116,7 +116,7 @@ end
                 for i=1, heroManager.iCount do
                         waittxt[i] = i*3
                 end
-                PrintChat(" >> Jaximus Prime by szczurekPROS 1.1 loaded!")
+                PrintChat(" >> Jaximus Prime by szczurekPROS 1.3 loaded!")
         end
          
         function OnProcessSpell(unit, spell)
